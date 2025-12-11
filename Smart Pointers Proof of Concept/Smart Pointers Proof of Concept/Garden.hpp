@@ -18,6 +18,7 @@ public:
     Garden();
     Garden(std::string name);
     void display_info();
+    std::string get_gardener();
     
 private:
     std::string gardenerName;

@@ -21,6 +21,11 @@ Garden::Garden(std::string name)
     gardenerName = name;
 }
 
+std::string Garden::get_gardener()
+{
+    return gardenerName;
+}
+
 void Garden::display_info()
 {
     std::cout << "Displaying Garden info: " << std::endl;

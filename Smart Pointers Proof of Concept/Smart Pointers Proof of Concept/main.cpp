@@ -70,6 +70,7 @@ int main(int argc, const char * argv[])
     someoneElsesGarden.display_info();
     // In Java, this would be put on the heap and there would be nothing you could do about it.
     // It just goes there. Not so here in C++.
+    std::cout << std::endl;
     
     /*
         Now, let's define the HEAP.
@@ -78,8 +79,54 @@ int main(int argc, const char * argv[])
      
         The heap is DYNAMICALLY ALLOCATED memory, meaning we get to choose when to use it, and when to release it.
      
-        But that means that if we forget to release it, that's going to cause an issue. The memory will just be happily sitting there, set aside for our program, hogging resources that the rest of our computer could be using. 
+        But that means that if we forget to release it, that's going to cause an issue. The memory will just be happily sitting there, set aside for our program, hogging resources that the rest of our computer could be using.
+     
+        In order to put things on the heap, we need to use pointers. Pointers are objects placed on the stack that simply reference a heap location by its hex address. They're how we work with the heap.
+     
+        Pointers can point to any location though, including stack locations.
         
+     */
+    
+    // To illustrate what a pointer is, we will create a pointer to a string that's on the stack.
+    std::string dinner = "Red Robin Clucks and Fries";
+    std::string* pointerToDinner = &dinner;
+    // Did we need to do this? Of course not! But let's print it anyway:
+    std::cout << "Dinner: " << *pointerToDinner << std::endl;
+    std::cout << "Stack address of dinner: " << pointerToDinner << std::endl;
+    // And yeah, we can even see the address of a pointer:
+    std::cout << "stack address of the pointer TO dinner: " << &pointerToDinner << std::endl;
+    
+    // Here's a raw pointer that actually points to a heap location. You have to take care of all the memory yourself.
+    int* heapInt = new int(42);
+    std::cout << "Value: " << *heapInt << std::endl;
+    std::cout << "Address: " << heapInt << std::endl;
+    delete heapInt;
+    heapInt = nullptr;
+    
+    // Exhibit 2:
+    int* ohLookARawArray = new int[100];
+    // put some random crap in the array
+    ohLookARawArray[0] = 67;
+    ohLookARawArray[10] = 666;
+    ohLookARawArray[87] = 69;
+    ohLookARawArray[99] = 621;
+    std::cout << "Item: " << ohLookARawArray[0] << std::endl;
+    std::cout << "Item: " << ohLookARawArray[10] << std::endl;
+    std::cout << "Item: " << ohLookARawArray[87] << std::endl;
+    std::cout << "Item: " << ohLookARawArray[99] << std::endl;
+    delete[] ohLookARawArray;
+    ohLookARawArray = nullptr;
+    
+    // Here's a raw pointer to a class on the heap:
+    Garden* pointerToMyGarden = new Garden();
+    // We access the variables in this manner:
+    std::cout << "Owner of the garden I just made: " << pointerToMyGarden->get_gardener() << std::endl;
+    delete pointerToMyGarden;
+    pointerToMyGarden = nullptr;
+    // Fine to do it this way here, but it gets trickier in large programs.
+    
+    /*
+        In order to eliminate some responsibility from ourselves to avoid double-deletion or forgetting to delete something, we now use smart pointers in modern C++. 
      */
     
     return EXIT_SUCCESS;
