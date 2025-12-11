@@ -117,6 +117,7 @@ int main(int argc, const char * argv[])
     delete[] ohLookARawArray;
     ohLookARawArray = nullptr;
     
+    std::cout << std::endl;
     // Here's a raw pointer to a class on the heap:
     Garden* pointerToMyGarden = new Garden();
     // We access the variables in this manner:
@@ -126,8 +127,25 @@ int main(int argc, const char * argv[])
     // Fine to do it this way here, but it gets trickier in large programs.
     
     /*
-        In order to eliminate some responsibility from ourselves to avoid double-deletion or forgetting to delete something, we now use smart pointers in modern C++. 
+        In order to eliminate some responsibility from ourselves to avoid double-deletion or forgetting to delete something, we now use smart pointers in modern C++.
+     
+        The first type of smart pointer we will explore is a unique pointer, which forbids copying or using copy constructors (you'd have to explicitly MOVE it instead if you wanted to shift it somewhere else). A unique pointer assumes the responsibility of deleting the memory it points to once it goes out of scope. (Usually this means the function it's in ends, or the class it's a member of is done being used)
+     
+        We will start with the most basic use case of a unique pointer to illustrate, then will move to more practical use cases.
      */
+    
+    std::unique_ptr<Garden> gardenPtr2(new Garden("Carito"));
+    std::cout << "Gardener: " << gardenPtr2->get_gardener() << std::endl;
+    // So yeah, we don't have to delete anything.
+    // The only way to move it is something like this:
+    std::unique_ptr<Garden> gardenPtr3 = std::move(gardenPtr2);
+    std::cout << "Gardener: yep it's still " << gardenPtr3->get_gardener() << std::endl;
+    // Now gardenPtr2 is just nullptr.
+    
+    // We would use the unique pointer in many situations, as it should be the default type of pointer that you use.
+    // (usage examples go here)
+    // (move examples go here)
+    
     
     return EXIT_SUCCESS;
 }
