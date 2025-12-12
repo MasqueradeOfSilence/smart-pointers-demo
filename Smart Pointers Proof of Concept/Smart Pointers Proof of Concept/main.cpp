@@ -142,8 +142,7 @@ int main(int argc, const char * argv[])
     std::cout << "Gardener: yep it's still " << gardenPtr3->get_gardener() << std::endl;
     // Now gardenPtr2 is just nullptr.
     
-    // We would use the unique pointer in many situations, as it should be the default type of pointer that you use.
-    // (usage examples go here)
+    // Now, that move was kind of a contrived example, so we will show some more realistic scenarios now:
     // (move examples go here)
     
     
