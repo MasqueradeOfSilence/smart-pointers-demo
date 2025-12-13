@@ -19,9 +19,11 @@ public:
     Garden(std::string name);
     void display_info();
     std::string get_gardener();
+    void plant_flower();
     
 private:
     std::string gardenerName;
+    int numFlowers;
 };
 
 #endif /* Garden_hpp */

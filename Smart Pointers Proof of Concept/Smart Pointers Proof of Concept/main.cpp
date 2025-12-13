@@ -9,6 +9,21 @@
 #include <string>
 #include "Garden.hpp"
 
+void aFunctionThatTakesAPointer(std::unique_ptr<Garden> gardenPointer)
+{
+    std::cout << "Yay nice, I have a garden pointer for some reason!" << std::endl;
+    std::cout << "Proof: ";
+    gardenPointer->display_info();
+    std::cout << std::endl;
+}
+
+std::unique_ptr<Garden> returnAPointer()
+{
+    std::unique_ptr<Garden> aGardenPointer(new Garden("Sonrisa"));
+    aGardenPointer->plant_flower();
+    return aGardenPointer;
+}
+
 int main(int argc, const char * argv[])
 {
     std::cout << "Hello, Smart Pointers Proof of Concept!\n";
@@ -45,7 +60,7 @@ int main(int argc, const char * argv[])
     }
     if (isSheALady)
     {
-        std::cout << "and yeah she's definitely a lady" << std::endl;
+        std::cout << "and yeah she's definitely a lady, cuz she's at least 280 ( ͡° ͜ʖ ͡°) " << std::endl;
     }
     
     // See? No new needed. Just standard variables.
@@ -143,7 +158,44 @@ int main(int argc, const char * argv[])
     // Now gardenPtr2 is just nullptr.
     
     // Now, that move was kind of a contrived example, so we will show some more realistic scenarios now:
-    // (move examples go here)
+    
+    // Example 1: Calling a funtion that needs a pointer as a parameter
+    std::unique_ptr<Garden> gardenPtr4(new Garden("Carlos"));
+    // Note that this is the C++ 11 way of initializing, not C++ 14, which is a little cleaner with make_unique
+    // Now we need to move it when we pass it in:
+    aFunctionThatTakesAPointer(std::move(gardenPtr4));
+    
+    // Example 2: Returning a pointer from a function does NOT need move actually
+    std::unique_ptr<Garden> gardenPtr5 = returnAPointer();
+    std::cout << "Let's do that again: " << std::endl;
+    gardenPtr5->display_info();
+    
+    // Example 3: Putting it into a vector of unique pointers
+    std::vector<std::unique_ptr<Garden>> gardens;
+    std::unique_ptr<Garden> gardenPtr6 = returnAPointer();
+    gardens.push_back(std::move(gardenPtr6));
+    for (auto& garden: gardens)
+    {
+        garden->plant_flower();
+    }
+    
+    // Example 4: Just reassigning ownership
+    // (see above)
+    
+    /*
+        So that was a unique pointer, where we only want to use it for one thing at a time.
+     
+        But what if we want to use an object more than once, which we've stored on the heap for storage reasons?
+     
+        example: a large leaf texture in a game.
+     
+        That's where shared pointers come in. Multiple pointers can point to the same object on the heap
+     
+        And the memory isn't freed up until they are all reset.
+     */
+    
+    // (TODO make a few Leaf objects using the same shared Texture pointer)
+    
     
     
     return EXIT_SUCCESS;

@@ -26,8 +26,15 @@ std::string Garden::get_gardener()
     return gardenerName;
 }
 
+void Garden::plant_flower()
+{
+    std::cout << "planting a flower" << std::endl;
+    numFlowers++;
+}
+
 void Garden::display_info()
 {
     std::cout << "Displaying Garden info: " << std::endl;
     std::cout << "Gardener: " << gardenerName << std::endl;
+    std::cout << "We have " << numFlowers << " beautiful, allergy-inducing flowers" << std::endl;
 }
